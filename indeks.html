@@ -1,11 +1,38 @@
 <html>
 <head>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" /> <!--style peta--> 
+	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script> <!--SCRIPT-->
+
+	<style>
+		#mapid { height: 650px; }
+	</style>
 </head>
 
 <body>
-	<p>
-		terserah
-	</p>
+	<div id="mapid"></div>  <!-- container peta-->
+	
+	<script>
+		var mymap = L.map('mapid').setView([-7.79558, 110.36949], 13); 
+			/*var = variabel 
+			L.map = memanggil peta
+			. = connetor antara objek dan metode
+			setView = metode
+			[-7.79558, 110.36949] = latitude, longitude
+			13 = tingkatan
+			*/
+			
+		L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+			{attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			maxZoom: 19			
+			}).addTo(mymap);
+			/*
+			L.tileLayer = memanggil tile layer
+			*/
+			
+		var marker = L.marker([-7.79558, 110.36949]).addTo(mymap);
+		marker.bindPopup("<b>I was here</b>").openPopup();
+	</script>
+	
 </body>
 
 
