@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="language" content="en">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>Peta Kampus UGM</title>
+
+	<!-- UGM -->
+	<link rel="shortcut icon" type="image/x-icon" href="https://ugm.ac.id/images/ugm_favicon.png">
+	<link rel="stylesheet" type="text/css" href="css/style-custom.css">
+	<link rel="stylesheet" type="text/css" href="css/css.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<!-- Openlayers -->
+	<link rel="stylesheet" type="text/css" href="https://openlayers.org/en/v4.6.5/css/ol.css">
+	<script type="text/javascript" src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+	<!-- jquery -->
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<!-- jquery ui -->
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
+	<!-- bootstrap -->
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<!-- ol-ext -->
+	<link rel="stylesheet" type="text/css" href="css/ol-ext-new.css" />
+	<script type="text/javascript" src="js/ol-ext-new.js"></script>
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	<!--MAP-->
+    <link rel="stylesheet" type="text/css" href="css/map.css">
+	
+	<style>
+		html,body {
+			height: 100%;
+		}
+		#map {
+			width: 100%;
+			height: calc(100vh - 50px);
+        }
+	</style>
+</head>
+<body>
+	<header id="header" class="header-fancy">
+		<!-- Navbar -->
+		<nav class="container">
+			<div class="navbar-header">
+				<a href="http://ugm.ac.id/" class="navbar-brand">
+					<img src="img/ugm_header.png" alt="Universitas Gadjah Mada" class="img-responsive" id="ugmlogo">
+					<span>Peta Kampus UGM</span>
+				</a>
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div id="navbar" class="navbar-collapse navbar-default collapse">
+				<ul class="nav navbar-nav navbar-left">
+					<li class="active"><a href="#">Peta</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#aboutModal">Tentang</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#disclaimerModal">Aturan Penggunaan</a></li>
+					<li class="dropdown	">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">Fitur Peta<span
+								class="caret"></span></a>
+						<div class="dropdown-menu">
+							<div class='external layerSwitcher'></div>
+						</div>
+					</li>
+					<li id='tour-btn'><a href="#">Tur Fakultas</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li>
+						<form class="search-form">
+							<div class="input-group btn-group">
+								<input id='autocomplete_search' class="form-control" placeholder="Pencarian ..." type="text">
+								<button class="btn"><i class="fa fa-search"></i></button>
+								<div id="clr-search"><i class="fa fa-times-circle"></i></div>
+							</div>
+						</form>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<!-- About Modal -->
+		<div class="modal fade" id="aboutModal" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Tentang</h4>
+					</div>
+					<div class="modal-body">
+						<p>Peta Web ini merupakan hasil kegiatan aplikatif untuk menyelesaikan studi sarjana yang berjudul "PEMBUATAN PETA INTERAKTIF
+							UNIVERSITAS GADJAH MADA BERBASIS WEB MENGGUNAKAN PERANGKAT LUNAK DAN LIBRARIES OPEN SOURCE". Peta ini dibuat dengan
+							tujuan untuk menyediakan piranti pencarian lokasi dan navigasi bagi pengguna di wilayah kampus Universitas Gadjah Mada
+							secara interaktif.
+						</p>
+						<p>Saat ini peta masih dalam pengembangan
+						Jika ada masukan atau pertanyaan dapat dikirim ke alamat email : mufti.fadil.p@mail.ugm.ac.id</p>
+						<hr>
+						<h4 class="modal-title">Resource</h4>
+						<div class="row">	
+							<div class="col-sm-6">
+								<ul>
+									<li><a target="_blank" href="http://openlayers.org/en/v4.6.5/apidoc/">Openlayers v4.6.5</a></li>
+									<li><a target="_blank" href="http://geoserver.org/release/2.8.0/">Geoserver v2.8.0</a></li>
+									<li><a target="_blank" href="https://www.postgresql.org/docs/9.3/index.html">Postgre SQL v9.3.5</a></li>
+									<li><a target="_blank" href="https://postgis.net/documentation/">PostGIS v2.1.7</a></li>
+									<li><a target="_blank" href="http://viglino.github.io/ol-ext/doc/doc-pages/">Ol-Ext</a></li>
+									<li><a target="_blank" href="https://qgis.org/en/site/">QGIS v3.0</a></li>
+								</ul>
+							</div>
+							<div class="col-sm-6">
+								<ul>
+									<li><a target="_blank" href="https://jquery.com/">Jquery</a></li>
+									<li><a target="_blank" href="https://jqueryui.com/">JqueryUi</a></li>
+									<li><a target="_blank" href="https://github.com/MrRio/jsPDF">JSpdf</a></li>
+									<li><a target="_blank" href="https://getbootstrap.com/docs/3.3/">Bootstrap v3.3.7</a></li>
+									<li><a target="_blank" href="https://fontawesome.com/">Fontawesome v5.3.1</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Aturan Penggunaan Modal -->
+		<div class="modal fade" id="disclaimerModal" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Aturan Penggunaan</h4>
+					</div>
+					<div class="modal-body">
+						<p>Peta Web Kampus UGM ini dibuat dengan tujuan untuk menyediakan piranti pencarian lokasi dan navigasi 
+							bagi pengguna di wilayah kampus Universitas Gadjah Mada secara interaktif. 
+							informasi yang disediakan disesuaikan untuk keperluan umum semata dan tidak ditujukan untuk 
+							keperluan resmi, legal, atau pemetaan. Pembuat tidak bertanggung jawab atas penyalahgunaan informasi 
+							yang tersedia pada web ini.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+					</div>
+				</div>
+			</div>
+		</div>
+    </header>
+    
+	<!-- Map Container-->
+	<div class="container-fluid">
+		<div id="map" class="map"></div>
+    </div>
+    
+	<!-- Routing Menu Content-->
+	<div id="routeOverlay">
+		<h1 style="border-bottom:1px solid #999;">Navigasi</h1>
+		<div id="routeInterface" class="none">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kendaraan</label>
+					<div class="col-sm-8">
+						<select id="select1" class="form-control" autocomplete="off">
+							<option value="0" selected></option>
+							<option value="jalan">Jalan Kaki</option>
+							<option value="sepeda">Sepeda</option>
+							<option value="motor">Motor</option>
+							<option value="mobil">Mobil</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<input id="startForm" type="text" class="form-control" placeholder="Titik Mulai..." autocomplete="off" readonly >
+					</div>
+					<div class="col-sm-3">
+						<button id="startPoint" class="btn btn-success" type="button"><i class="fas fa-map-marker-alt fa-lg"></i></button>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<input id="destForm" type="text" class="form-control" placeholder="Titik Tujuan..." autocomplete="off" readonly>
+					</div>
+					<div class="col-sm-3">
+						<button id="destPoint" class="btn btn-danger" type="button"><i class="fas fa-map-marker-alt fa-lg"></i></button>
+					</div>
+				</div>
+			</form>
+			<div>
+				<input id="calculateRoute" class="routing-button btn btn-primary" type="button" value="Hitung" >
+				<input id="clearRoute"class="routing-button btn btn-primary" type="button" value="Hapus" >
+			</div>
+			<hr>
+			<div id="result"></div>
+		</div>
+		<div id="routeMenu">
+			<p>Menu ini berisi antarmuka untuk melakukan navigasi di lingkungan kampus UGM</p>
+			<div>
+				<h3>Petunjuk Penggunaan</h3>
+				<ol>
+					<li>Masukkan <b>"Jenis Kendaraan"</b> yang digunakan</li>
+					<li>Klik
+						<button class="btn btn-success btn-xs" type="button"><i class="fas fa-map-marker-alt fa-lg"></i></button>
+						untuk menentukan titik Awal</li>
+					<li>Klik
+						<button class="btn btn-danger btn-xs" type="button"><i class="fas fa-map-marker-alt fa-lg"></i></button>
+						untuk menentukan titik Tujuan</li>
+					<li>Klik
+						<input class="btn btn-primary btn-xs" type="button" value="Hitung">
+						untuk mencari jalur</li>
+					<li>Klik
+						<input class="btn btn-primary btn-xs" type="button" value="Hapus">
+						untuk menghapus jalur yang sudah ada</li>
+					<li>Klik
+						<input class="btn btn-success btn-xs" type="button" value="Selesai">
+						keluar dari menu Navigasi</li>
+				</ol>
+			</div>
+			<p>Tekan tombol "Mulai" untuk mengaktifkan fungsi navigasi</p>
+		</div>
+		<input id="btnInfo" class="info-button btn btn-success" type="button" value="Mulai" onclick="routeOnOff();" >
+	</div>
+
+	<!-- Legenda -->
+	<div id="legend">
+		<h3>Legenda :</h3>
+		<div class="row">
+			<div class="col-sm-3">
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=28&HEIGHT=28&LAYER=petakampus:halte0&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=28&HEIGHT=28&LAYER=petakampus:air_bersih0&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=28&HEIGHT=28&LAYER=petakampus:kantin0&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">				
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=28&HEIGHT=28&LAYER=petakampus:parkir_motor&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">
+			
+			</div>
+			<div class="col-sm-3">
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=28&HEIGHT=28&LAYER=petakampus:sepeda_kampus0&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=28&HEIGHT=28&LAYER=petakampus:layanan_kes0&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=28&HEIGHT=28&LAYER=petakampus:tempat_badah0&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=28&HEIGHT=28&LAYER=petakampus:parkir_mobil&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">
+			
+			</div>
+			<div class="col-sm-3">
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=28&HEIGHT=28&LAYER=petakampus:pos_keamanan0&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:bangunan1&STYLE=petakampus:bangunan_categorized&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">
+			</div>
+			<div class="col-sm-2">
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:danau&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:hutan&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">
+				<img src="http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:lapangan&LEGEND_OPTIONS=forceLabels:on&TRANSPARENT=true ">
+			</div>
+		</div> 
+	</div>
+
+	<!-- story map container -->
+	<div id="story">
+		<div class="chapter start" name="Start">
+			<h2>Tur Digital Kampus Universitas Gadjah Mada</h2>
+		 	<hr>
+			<img class="img-responsive" src="img/story-start.jpg">
+		  	<p>
+			Sebuah perjalanan atraktif dalam menjelah dan mengenal fakultas yang berada di Universitas Gadjah Mada
+		  	</p>
+		  	<hr>
+		  	<div class="ol-scroll-next"><b>Mulai</b></div>
+		</div>
+		<div class="chapter" name="Biologi">
+			<h2><a target="_blank" href= 'http://biologi.ugm.ac.id/'>Fakultas Biologi</a></h2>
+			<img class="img-responsive" src="img/story-biologi.png">
+			<p>
+			Fakultas Biologi UGM didirikan pada tanggal 19 September 1955 berdasarkan SK Mentri Pendidikan, Pengajaran, dan Kebudayaan RI no. 53759/Kb, tertanggal 15 September 1955.
+			</p>
+			<p>
+			Pada masa awal, Fakultas Biologi UGM berada di Kompleks Mangkubumen, Yogyakarta, bersama Fakultas Kedokteran, Kedokteran Gigi, dan Farmasi. Sejak tahun 1970, Fakultas Biologi UGM menempati kampus di Sekip Utara Yogyakarta.
+			</p>
+			<p>	
+			Setelah tahun akademik 1994/1995, Fakultas Biologi hanya menyelenggarakan satu program studi, yaitu Program Studi Biologi, berdasarkan SK Mendikbud no. 056/U/1994 tertanggal 19 Maret 1994 dan SK Mendikbud no. 0219/U/1995 tertanggal 25 Juli 1995.
+			</p>
+		</div>
+		<div class="chapter" name="FEB">
+			<h2><a target="_blank" href= 'https://feb.ugm.ac.id/id'>Fakultas Ekonomika dan Bisnis</a></h2>
+			<img class="img-responsive" src="img/story-feb.png">
+			<p>
+			Fakultas Ekonomika dan Bisnis (FEB) Universitas Gadjah Mada di Yogyakarta didirikan pada tanggal 19 September Tahun 1955. Pada awalnya, pendidikan dan pengajaran ekonomi di Universitas Gadjah Mada, dilaksanakan oleh Jurusan Ekonomi yang dikoordinasi oleh Bagian Hukum, Fakultas Hukum, Ekonomi, Sosial dan Politik (Fakultas HESP). Dalam perkembangan selanjutnya, mulai tahun akademi 1955/1956, Fakultas HESP dipecah menjadi 3 fakultas yaitu Fakultas Hukum, Fakultas Ekonomi, dan Fakultas Sosial Politik.
+			</p>
+			<p>
+			Fakultas Ekonomi UGM (sebelum berubah namanya menjadi FEB) merupakan fakultas ekonomi negeri yang ketiga di Indonesia. Perubahan nama Fakultas Ekonomi UGM menjadi Fakultas Ekonomika dan Bisnis UGM adalah untuk memenuhi tujuan go-international, fakultas memandang perlu untuk menggunakan istilah yang berlaku secara internasional yang memudahkan FEB untuk beradaptasi dalam komunitas internasional. Seiring dengan hal tersebut, Fakultas Ekonomika dan Bisnis UGM terus berupaya meningkatkan standar mutu pengajaran dan penelitian dengan ikut menjadi anggota AACSB International—The Association to Advance Collegiate Schools of Business (AACSB). Hingga pada 12 Mei 2014, Fakultas Ekonomika dan Bisnis UGM berhasil meraih akreditasi AACSB International dan menjadi satu-satunya sekolah bisnis di Indonesia yang terakreditasi.
+			</p>
+		</div>
+		<div class="chapter" name="Farmasi">
+			<h2><a target="_blank" href= 'https://farmasi.ugm.ac.id/'>Fakultas Farmasi</a></h2>
+			<img class="img-responsive" src="img/story-farmasi.png">
+			<p>
+			Fakultas Farmasi Universitas Gadjah Mada didirikan oleh Kementrian Kesehatan RI pada tanggal 27 September 1946 dengan nama Perguruan Tinggi Ahli Obat (PTAO) yang bertempat di Klaten. Perguruan Tinggi ini bergabung dalam gabungan perguruan tinggi-perguruan tinggi yang terdiri dari Perguruan Tinggi Kedokteran, Perguruan Tinggi Kedokteran Gigi, Perguruan Tinggi Pertanian dan Perguruan Tinggi Kedokteran Hewan. Kondisi negara yang belum stabil dan gejolak perjuangan sempat menjadikan kegiatan pendidikan terhenti. Hingga pada 1 November 1949 PTAO dibuka kembali di Yogyakarta dan bergabung menjadi Universitas Gadjah Mada pada 1949.
+			</p>
+			<p>
+			Sebagai instansi pendidikan kefarmasian tertua di Indonesia, Fakultas Farmasi berkomitmen penuh untuk mendedikasikan diri pada perkembangan ilmu pengetahuan dan pendidikan di bidang kefarmasian. Saat ini Fakultas Farmasi memiliki 5 Program Studi (Prodi), yaitu Sarjana Ilmu Farmasi, Magister Ilmu Farmasi, Doktor Ilmu Farmasi yang ketiganya mendapat akreditasi A dari BAN-PT, serta Profesi Apoteker dan Magister Farmasi Klinik yang berhasil terakreditasi A dari LAM-PTKes.
+			</p>
+		</div>
+		<div class="chapter" name="Filsafat">
+			<h2><a target="_blank" href= 'https://filsafat.ugm.ac.id/'>Fakultas Filsafat</a></h2>
+			<img class="img-responsive" src="img/story-filsafat.png">
+			<p>
+			Fakultas Filsafat Universitas Gadjah Mada didirikan pada tanggal 18 Agustus 1967. Sebelum didirikannya Fakultas Filsafat secara mandiri, di lingkungan Universitas Gadjah Mada telah ada Fakultas Sastra, Paedagogik, dan Filsafat. Gagasan untuk mendirikan Fakultas Filsafat tercetus terutama karena kebutuhan yang semakin mendesak dibidang pembinaan pendidikan pada umumnya, dan ilmu pengetahuan pada khususnya terutama ilmu pengetahuan dasar dan pengetahuan umum (studium generale). 			
+			</p>
+			<p>
+			Fakultas Filsafat UGM menyelenggarakan studi untuk program sarjana, pascasarjana, dan doktor yang semuanya memiliki akreditasi A oleh BAN-PT (2015). Pendidikan di fakultas filsafat dibagi menjadi 3  departemen yaitu Filsafat Barat, Filsafat Timur, dan Filsafat Agama. Fakultas Filsafat diharapkan dapat melahirkan para cendekiawan yang berpengetahuan mendasar dan menyeluruh. Disatu pihak mereka benar-benar terlatih untuk berfikir secara kritis, logis, integratif, dan di lain pihak mampu mengintegrasikan serta mengaplikasikan keahlian mereka masing-masing dalam kesatuan hidup, terutama pada  masyarakat negara Indonesia yang sedang membangun. 
+			</p>
+		</div>
+		<div class="chapter" name="Geografi">
+			<h2><a target="_blank" href= 'https://geo.ugm.ac.id/'>Fakultas Geografi</a></h2>
+			<img class="img-responsive" src="img/story-geografi.png">
+			<p>
+			Pada tahun 1950, Fakultas Geografi UGM awalnya merupakan salah satu jurusan pada Fakultas Sasta, Pedagogik dan Filsafat UGM, yaitu Jurusan Ilmu Bumi. Waktu itu Jurusan Ilmu Bumi berkembang dengan pesat. Peran pakar Ilmu Bumi semakin nyata dalam pembangunan dan semakin luas kiprahnya, hingga akhirnya Fakultas Sastra dan Kebudayaan UGM merelakan Jurusan Ilmu Bumi berubah menjadi Fakultas Geografi UGM pada 1 September 1963.
+			</p>
+			<p>
+			Pada saat dibuka, fakultas Geografi memiliki dua jurusan (Prodi), yaitu Jurusan Geografi Fisik dan Jurusan Geografi Manusia. Dalam perkembangannya, mulai tahun 2007 Fakultas Geografi UGM menyelenggarakan 3 Prodi pada jenjang sarjana (S1) yakni 1) Prodi Geografi dan Ilmu Lingkungan, 2) Prodi Kartografi dan Penginderaan Jauh, dan 3) Prodi Pembangunan Wilayah.
+			</p>
+			<p>
+			Saat ini Fakultas Geografi memiliki tiga departemen : 
+				<ul class="departemen">
+					<li><a target="_blank" href= 'https://gel.geo.ugm.ac.id/'>Geografi Lingkungan</a></li>
+					<li><a target="_blank" href= 'http://kpj.geo.ugm.ac.id/'>Sains Informasi Geografi</a></li>
+					<li><a target="_blank" href= 'http://pw.geo.ugm.ac.id/'>Geografi Pembangunan</a></li>
+				</ul>
+			</p>
+		</div>
+		<div class="chapter" name="Hukum">
+			<h2><a target="_blank" href= 'https://law.ugm.ac.id/'>Fakultas Hukum</a></h2>
+			<img class="img-responsive" src="img/story-hukum.png">
+			<p>
+			Fakultas Hukum Universitas Gadjah Mada merupakan fakultas hukum pertama yang didirikan oleh universitas nasional di Indonesia, dalam rangka perjuangan kemerdekaan Indonesia. Dalam perjalanannya, untuk mewujudkan semangat from good to great faculty of law, Fakultas Hukum UGM telah memberikan kontribusi penting dalam perkembangan bangsa dan negara pada umumnya dan perkembangan pendidikan tinggi ilmu hukum di Indonesia pada khususnya. Banyak pendapat dan pemikiran yang lahir, tumbuh, dan kemudian menyebar dari Fakultas Hukum UGM dalam rangka memperkuat sistem hukum Indonesia. Hal ini selaras dengan cita-cita Fakultas Hukum UGM untuk menciptakan Bulaksumur School of Legal Thoughts.
+			</p>
+			<p>
+			Berbagai prestasi pun telah dicapai oleh Fakultas Hukum UGM, baik dalam skala nasional maupun internasional. Fakultas Hukum UGM merupakan fakultas hukum universitas negeri pertama di Indonesia yang menginisiasi International Undergraduate Program dalam bidang ilmu hukum. Fakultas Hukum UGM mengadakan 1 rogram studi sarjana, 1 International Undergraduate Program (IUP), 6 program magister, dan 1 program doktor.
+			</p>
+		</div>
+		<div class="chapter" name="FIB">
+			<h2><a target="_blank" href= 'http://fib.ugm.ac.id/'>Fakultas Ilmu Budaya</a></h2>
+			<img class="img-responsive" src="img/story-fib.png">
+			<p>
+			Fakultas Ilmu Budaya berdiri sejak 3 Maret 1946 dengan nama Faculteit Sastra, Filsafat, dan Keboedajaan. Fakultas ini sempat berganti - ganti nama sampai enam kali, akhirnya pada tanggal 23 Juni 2001 fakultas ini bernama Fakultas Ilmu Budaya. 
+			</p>
+			<p>
+			Dalam perkembangan terakhir Fakultas Ilmu Budaya Universitas Gadjah Mada menyelenggarakan pendidikan Program Sarjana jenjang S1, dan Program Pascasarjana jenjang S2 dan S3. Jenjang S1 terdiri atas 11 Program Studi yaitu Antropologi Budaya, Arkeologi, Ilmu Sejarah, Sastra Arab, Sastra Indonesia, Sastra Inggris, Sastra Jepang, Bahasa Korea, Sastra Nusantara, Sastra Prancis, dan Pariwisata. Mulai tahun 2011, dibuka juga dua kelas internasional dalam jenjang S1, yaitu program studi Sastra Inggris dan Pariwisata. Program Pascasarjana pada jenjang S2 memiliki program studi Antropologi, Arkeologi, Sejarah, Ilmu Sastra, Linguistik, dan Pengkajian Amerika. Pada jenjang S3 ada program studi Ilmu-Ilmu Humaniora dan Pengkajian Amerika. Di samping itu, Fakultas Ilmu Budaya juga menyelenggarakan pengajaran bahasa dan kebudayaan Indonesia untuk orang asing yang dikelola oleh Unit Pelayanan Pengajaran Bahasa dan Budaya Indonesia atau Indonesian Culture and Language Learning Services (INCULS).
+			</p>
+		</div>
+		<div class="chapter" name="Fisipol">
+			<h2><a target="_blank" href= 'http://fisipol.ugm.ac.id/'>Fakultas Ilmu Sosial dan Ilmu Politik</a></h2>
+			<img class="img-responsive" src="img/story-fisipol.png">
+			<p>
+			Fakultas Ilmu Sosial dan Ilmu Politik Unviersitas Gadjah Mada(sebelumnya Akademi Ilmu Politik) pada mulanya didirikan untuk mendidik para calon birokrat pemerintahan di bidang dalam negeri, penerangan, dan luar negeri di awal kemerdekaan Indonesia. Pada masa awal berdirinya UGM, studi ilmu sosial dan politik berada dalam satu fakultas dengan ilmu hukum dan ekonomi. Fakultas Ilmu Sosial dan Politik kemudian dibentuk secara terpisah sejak 1955 yang kemudian berubah nama menjadi Fakultas Ilmu Sosial dan Ilmu Politik, disingkat FISIPOL.
+			</p>
+			<p>		
+				Saat ini Fakultas Ilmu Sosial dan Ilmu Politik telah berhasil memperoleh akreditasi Internasional dari ASEAN University Network (AUN) dengan memiliki enam departemen diantaranya: 
+					<ul class="departemen">
+						<li><a target="_blank" href= 'http://hi.fisipol.ugm.ac.id/'>Hubungan Internasional</a></li>
+						<li><a target="_blank" href= 'http://dikom.fisipol.ugm.ac.id/'>Ilmu Komunikasi</a></li>
+						<li><a target="_blank" href= 'http://mkp.fisipol.ugm.ac.id/'>Manajemen Kebijakan Publik</a></li>
+						<li><a target="_blank" href= 'http://pembangunansosial.fisipol.ugm.ac.id/'>Pembangunan Sosial dan Kesejahteraan</a></li>
+						<li><a target="_blank" href= 'http://sosiologi.fisipol.ugm.ac.id/'>Sosiologi</a></li>
+						<li><a target="_blank" href= 'http://jpp.fisipol.ugm.ac.id/'>Politik dan Pemerintahan</a></li>
+					</ul>
+				dengan tiga jenjang program pendidikan yakni Sarjana, Master, dan Doktoral.
+			</p>
+		</div>
+		<div class="chapter" name="FKG">
+			<h2><a target="_blank" href= 'https://fkg.ugm.ac.id/'>Fakultas Kedokteran Gigi</a></h2>
+			<img class="img-responsive" src="img/story-fkg.png">
+			<p>
+			Pada tanggal 5 Maret 1948 diresmikan penggabungan Perguruan Tinggi Kedokteran Gigi dengan Perguruan Tinggi Kedokteran yang diberi nama Perguruan Tinggi Kedokteran dan Kedokteran Gigi bertempat di Rumah Sakit Tegalyoso, Klaten. Pada tanggal 19 Desember 1949 perguruan tinggi ini bergabung dengan perguruan tinggi yang sudah ada di Yogyakarta, yaitu Sekolah Tinggi Teknik dan Fakultas Hukum dan Sastra, Filsafat dan Kebudayaan dengan nama UNIVERSITIT NEGERI GADJAH MADA. Pada saat itu Fakultas Kedokteran Gigi masih merupakan gabungan antara Fakultas Kedokteran dan Farmasi dengan nama FAKULTIT KEDOKTERAN, KEDOKTERAN GIGI DAN FARMASI yang bertempat di Mangkubumen, Yogyakarta. Pada 29 Desember tahun 1960 barulah Fakultas Kedokteran Gigi berdiri sebagai fakultas sendiri.
+			</p>
+			<p>
+			Fakultas Kedokteran Gigi UGM telah mencetak banyak lulusan baik sebagai pendidik, peneliti, maupun tenaga profesional. Saat ini FKG menyelenggarakan Program Sarja, Pascasarjana, Doktoral, profesi, dan berbagai program spesialis.
+			</p>
+		</div>
+		<div class="chapter" name="FKH">
+			<h2><a target="_blank" href= 'https://fkh.ugm.ac.id/'>Fakultas Kedokteran Hewan</a></h2>
+			<img class="img-responsive" src="img/story-fkh.png">
+			<p>
+			Fakultas Kedokteran Hewan Universitas Gadjah Mada (FKH UGM) merupakan salah satu FKH tertua di Indonesia. Keberadaan FKH UGM tidak dapat dilepaskan dari masa perjuangan bangsa Indonesia sejak masa penjajahan Belanda, penjajahan Jepang, dan awal kemerdekaan Republik Indonesia. Sejak berdirinya Perguruan Tinggi Kedokteran Hewan (PTKH) pada 20 September 1946, hingga bergabungnya PTKH menjadi UGM, FKH terus berkembang. Pada tahun 1987 FKH dilengkapi dengan gedung Laboratorium Diagnostik di Klebengan dan tahun 1992 dilengkapi dengan Teaching Farm. Mulai tahun 2003, FKH menempati kampus baru di Jl. Fauna No. 2 Karangmalang dengan fasilitas gedung dan peralatan baru dan tahun 2006 FKH UGM secara resmi memiliki Rumah Sakit Hewan Prof. Soeparwi.
+			</p>
+			<p>
+			Fakultas Kedokteran Hewan saat ini mengelola 4 program studi yaitu Program S1 Kedokteran Hewan, Profesi Dokter Hewan, S2 dan S3 Sains Veteriner. Fakultas Kedokteran Hewan secara terus-menerus meningkatkan mutu pendidikan melalui pelaksanaan audit mutu akademik internal, pada tahun 2016 semua program studi telah terakreditasi A oleh BAN PT. Program studi S1 dan Profesi telah tersertifikasi oleh ASEAN University Network (AUN) dan mutu akademik juga telah ditingkatkan melalui peningkatan mutu pelayanan akademik dengan sertifikasi ISO 9001:2008.
+			</p>
+		</div>
+		<div class="chapter" name="FKKMK">
+			<h2><a target="_blank" href= 'http://fk.ugm.ac.id/'>Fakultas Kedokteran, Kesehatan Masyarakat dan Keperawatan</a></h2>
+			<img class="img-responsive" src="img/story-fk.png">
+			<p>
+			FKKMK UGM merupakan Fakultas Kedokteran tertua di Indonesia yang berdiri pada tanggal 5 Maret 1946. Pada jaman penjajahan Belanda terdapat dua sekolah kedokteran yaitu Geneeskundige Hoge School (GHS) di Jakarta dan Netherlands Indische Arsten School (NIAS) di Surabaya. Selanjutnya pada masa pendudukan Jepang (1943-1945) GHS berubah nama menjadi Djakarta Ika Daigaku, sedangkan NIAS ditutup dan kebanyakan mahasiswanya pindah ke Djakarta Ika Daigaku. Sesaat setelah Proklamasi Kemerdekaan RI, Djakarta Ika Daigaku diambil alih oleh pemerintah Republik Indonesia dan berubah nama menjadi Perguruan Tinggi Kedokteran di Jakarta. Dikarenakan kondisi di Jakarta tidak stabil, maka dipindahkan di yogyakarta, dan pada 1949 bergabung dengan sekolah tinggi yang ada di Yogyakarta menjadi Universitas Gadjah Mada.
+			</p>
+			<p>
+			FKKMK UGM memiliki visi dan misi yang tidak bisa dipisahkan dengan visi dan misi Universitas Gadjah Mada, yaitu menjadi Fakultas Kedokteran berkelas dunia, inovatif dan unggul mengabdi kepada kepentingan bangsa dan kemanusiaan. FKKMK UGM sebagai institusi pembelajaran berbasis riset, yang memiliki reputasi internasional di bidang pendidikan, riset dasar, klinik maupun translasional  dan pengabdian masyarakat yang berkesinambungan. FKKMK UGM sebagai rujukan bagi institusi pendidikan kedokteran lainnya dalam pengelolaan kurikulum, organisasi pendidikan, dan proses pembelajaran. Inovasi dan upaya perbaikan di bidang kurikulum dan pembelajaran agar setiap lulusan mampu memenuhi Standar Kompetensi Dokter Indonesia (SKDI), serta mampu bersaing di tingkat global dalam menyelesaikan berbagai permasalahan kesehatan.
+			</p>
+		</div>
+		<div class="chapter" name="Kehutanan">
+			<h2><a target="_blank" href= 'http://fkt.ugm.ac.id/'>Fakultas Kehutanan</a></h2>
+			<img class="img-responsive" src="img/story-kehutanan.png">
+			<p>
+			Pada tahun ajaran 1951/52 dalam Rapat Senat Terbuka UGM yang dipimpin oleh Presiden UGM, Prof.Dr. Sardjito, dibuka dan dideklarasikan secara resmi Bagian Kehutanan pada Fakultas Pertanian UGM dan sejak itu nama Fakultas Pertanian berubah menjadi Fakultas Pertanian dan Kehutanan UGM. Dalam perkembangan selanjutnya, mulai tanggal 17 Agustus 1963 Fakultas Pertanian dan Kehutanan UGM terpisah menjadi tiga fakultas, yaitu Fakultas Pertanian, Fakultas Teknologi Pertanian dan Fakultas Kehutanan.
+			</p>
+			<p>
+			Fakultas Kehutanan UGM mempunyai satu Program Studi Strata-1 yaitu Program Studi Kehutanan, dan mempunyai empat Departemen yaitu : Manajemen Hutan, Silvikultur, Teknologi Hasil Hutan, dan Konservasi Sumberdaya Hutan.
+			</p>
+		</div>
+		<div class="chapter" name="MIPA">
+			<h2><a target="_blank" href= 'https://mipa.ugm.ac.id/'>Fakultas Matematika dan Ilmu Pengetahuan Alam</a></h2>
+			<img class="img-responsive" src="img/story-mipa.png">
+			<p>
+			Fakultas yang mengasuh Matematika dan Ilmu Pengetahuan Alam di Universitas Gadjah Mada diresmikan berdirinya pada tanggal 19 September 1955. Pada awalnya fakultas ini masih merupakan fakultas gabungan dengan Fakultas Teknik yang disebut Persatuan Fakultas Ilmu Pasti dan Alam dan Fakultas Teknik. Mulai 1 September 1956 Fakultas Ilmu Pasti dan Alam (FIPA) memisahkan diri dari Fakultas Teknik. Mulai tanggal 28 Desember 1982, nama FIPA diubah menjadi FMIPA (Fakultas Matematika dan Ilmu Pengetahuan Alam) dan sampai saat itu memiliki 3 Jurusan yaitu :
+				<ul>
+					<li><a target="_blank" href= 'http://fisika.fmipa.ugm.ac.id/'>Jurusan Fisika</a></li>
+					<li><a target="_blank" href= 'http://chemistry.ugm.ac.id/'>Jurusan Kimia</a></li>
+					<li><a target="_blank" href= 'https://math.fmipa.ugm.ac.id/'>Jurusan Matematika</a></li>
+				</ul>
+			</p>
+			<p>
+			Sejak tahun 1985, fakultas menyelenggarakan tiga macam program studi yang sesuai jurusan masing masing, yaitu Program Studi Fisika, Kimia dan Matematika. Semenjak tahun kuliah 1987/1988, Jurusan Matematika membuka dua program studi baru yaitu Program Studi Statistika dan Program Studi Ilmu Komputer, begitu pula Jurusan Fisika membuka dua program studi baru yaitu Program Studi Geofisika dan Program Studi Elektronika dan Instrumentasi. Pada tahun 2010, proposal pembentukan Jurusan Ilmu Komputer dan Elektronika (JIKE). JIKE menaungi dua program studi yaitu 
+			<a target="_blank" href= 'http://dcse.fmipa.ugm.ac.id/'>Program Studi Elektronika dan Instrumentasi</a>, 
+			yang berpindah dari Jurusan Fisika, serta Program Studi Ilmu Komputer, yang berpindah dari Jurusan Matematika. Dibuka juga program magister dan doktor untuk ilmu matematika, ilmu fisika, ilmu kimia, dan ilmu komputer.
+			</p>
+		</div>
+		<div class="chapter" name="Pertanian">
+			<h2><a target="_blank" href= 'http://web.faperta.ugm.ac.id/'>Fakultas Pertanian</a></h2>
+			<img class="img-responsive" src="img/story-pertanian.png">
+			<p>
+			Fakultas Pertanian UGM telah banyak memberikan sumbangsih kepada bangsa dan dunia ilmu pengetahuan dalam bentuk sumberdaya manusia terdidik dan pengembangan ilmu, teknologi, serta konsep-konsep pembangunan. Karya-karya yang telah dihasilkan antara lain: UUPA ( Undang-Undang Pokok Agraria), padi Gogo Gama 61 dan Gama 87, Konservasi candi Borobudur, Test Farm Lahan Pasang Surut, Badan Usaha Unit Desa/Koperasi Unit Desa (BUUD/KUD), Pengendalian Hama Terpadu (PHT), Legin (Leguminosa Inokulum), Perkebunan Inti Rakyat (PIR) terutama Komoditas Teh dan Kakao. Kedelai Hitam Lokal Unggul Mallika (bersama-sama dengan tim dari Fak. Teknologi Pertanian), Produksi Vanili tahan penganggu tanaman, serta pengembangan budidaya tanaman di lahan pasir pantai. Di bidang perikanan telah berhasil diproduksi Vaksin Vibrio untuk mencegah penyakit vibriosis pada ikan laut.
+			</p>
+			<p>	
+			Pendidikan di Fakultas Pertanian UGM dibagi menjadi 6 Departemen :
+				<ul class="departemen">
+					<li><a target="_blank" href= 'https://buper.faperta.ugm.ac.id/'>Departemen Budidaya Pertanian</a></li>
+					<li><a target="_blank" href= 'http://hpt.faperta.ugm.ac.id/'>Departemen Hama dan Penyakit Tumbuhan </a></li>
+					<li><a target="_blank" href= 'http://mikro.faperta.ugm.ac.id/'>Departemen Mikrobiologi Pertanian </a></li>
+					<li><a target="_blank" href= 'http://fish.faperta.ugm.ac.id/'>Departemen Perikanan </a></li>
+					<li><a target="_blank" href= 'http://faperta.ugm.ac.id/sosek_lama/index.htm'>Departemen Sosial Ekonomi Pertanian  </a></li>
+					<li><a target="_blank" href= 'http://tanah.faperta.ugm.ac.id/'>Departemen Tanah  </a></li>
+				</ul>
+			</p>
+		</div>
+		<div class="chapter" name="Peternakan">
+			<h2><a target="_blank" href= 'https://fapet.ugm.ac.id/'>Fakultas Peternakan</a></h2>
+			<img class="img-responsive" src="img/story-peternakan.png">
+			<p>
+			Fakultas Peternakan adalah fakultas yang termuda di Universitas Gadjah Mada (UGM). Pada tanggal 15 September 1955 Fakultas Kedokteran Hewan UGM berkembang menjadi Fakultas Kedokteran Hewan dan Peternakan (FKH&P) UGM dan selanjutnya atas dorongan masyarakat dan inisiatif beberapa dosen pada tahun 1964 membentuk dua jurusan yaitu: 1) Jurusan Kedokteran Hewan dan 2) Jurusan Peternakan. Mulai tanggal 1 September 1966 FKH & P ditingkatkan menjadi dua Fakultas yaitu: 1) Fakultas Kedokteran Hewan dan 2) Fakultas Peternakan.
+			</p>
+			<p>
+			Pada awal pembentukan Fakultas Peternakan memiliki 4 program studi, yaitu : Nutrisi dan Makanan Ternak, Produksi Ternak, Sosial Ekonomi Peternakan, dan Teknologi Hasil Ternak. Mulai 2006, semua program studi tersebut dirubah menjadi Program Studi Ilmu dan Industri Peternakan.
+			</p>
+		</div>
+		<div class="chapter" name="Psikologi">
+		  	<h2><a target="_blank" href= 'http://psikologi.ugm.ac.id/'>Fakultas Psikologi</a></h2>
+			<img class="img-responsive" src="img/story-psikologi.png">  
+			<p>
+			Cikal bakal Fakultas Psikologi UGM adalah Jurusan Psikologi pada Fakultas Ilmu Pendidikan Universitas Gadjah Mada, yang berdiri pada tahun ajaran 1958/1959. Pada tanggal 6 Mei 1964 Fakultas Ilmu Pendidikan UGM digabungkan dengan IKIP Yogyakarta. Namun jurusan Psikologi di FIP UGM dipisah dan tetap tinggal di UGM, menjadi Bagian Psikologi.
+			</p>
+			<p>		
+			Pada tanggal 8 Januari 1965, berdasarkan Surat Keputusan Presiden RI menetapkan bahwa Bagian Psikologi UGM resmi sebagai Fakultas Psikologi Universitas Gadjah Mada. Hingga sekarang Fakultas Psikologi Universitas Gadjah Mada diakui sebagai salah satu program psikologi terkemuka di Indonesia.
+			</p>
+		</div>
+		<div class="chapter" name="Teknik">
+			<h2><a target="_blank" href= 'http://ft.ugm.ac.id/'>Fakultas Teknik</a></h2>
+			<img class="img-responsive" src="img/story-teknik.png">
+			<p>
+			Fakultas  Teknik  Universitas  Gadjah  Mada  lahir  dalam  kancah revolusi. Kondisi negeri yang penuh gejolak menyertai sejarah pembentukan Fakultas Teknik UGM. Pada tanggal 19 Desember 1949 setelah kedaulatan kembali ke tangan Republik Indonesia, STT Jogjakarta digabung dengan Sekolah Tinggi Kedokteran, dan Balai Perguruan Tinggi Gadjah Mada menjadi Universiteit Negeri Gadjah Mada. STT Jogjakarta kemudian berstatus sebagai Fakulteit Teknik.
+			</p>
+			<p>
+			Menghadapi industri 4.0 FT UGM terus meningkatkan mutu pendidikannya baik melalui pembaruan kurikulum, pembelajaran, maupun pengembangan mahasiswa secara holistik. Hingga tahun 2017 sebanyak 9 prodi S1 telah disertifikasi oleh ASEAN University Network – Quality Assurance (AUN QA). Program Studi S1 Teknik Kimia telah terakreditasi tingkat internasional dari The Institution of Chemical Engineers (IChemE). Tiga prodi yaitu Teknik Geodesi, Teknik Mesin dan Teknik Sipil telah divisit oleh Accreditation Board of Engineering and Technology (ABET). Sebanyak 5 prodi telah memasukkan aplikasi untuk proses akreditasi internasional yaitu Teknik Elektro, Teknologi Informasi dan Teknik Industri ke ABET, sedangkan Arsitektur mengajukan ke Korea Architectural Accreditng Board (KAAB) dan Perencanaan Wilayah dan Kota mengajukan ke Royal Town Planning Institute (RTPI). Secara nasional, semua prodi S1 di FT UGM telah diakreditasi oleh BAN PT dengan nilai A. Sedangkan pada jenjang S2, sebanyak 12 prodi telah terakreditasi A, 2 prodi masih terakreditasi B karena masih baru dan belum meluluskan. Pada jenjang S3, sebanyak 7 prodi terakreditasi A, serta 1 prodi terakreditasi B.
+			</p>
+			<p>	
+			Pendidikan di Fakultas Teknik UGM dibagi menjadi 8 Departemen :
+				<ul class="departemen">
+					<li><a target="_blank" href= 'http://archiplan.ugm.ac.id/'>Departemen Teknik Arsitektur dan Perencanaan</a></li>
+					<li><a target="_blank" href= 'http://geodesi.ugm.ac.id/'>Departemen Teknik Geodesi</a></li>
+					<li><a target="_blank" href= 'http://tsipil.ugm.ac.id/'>Departemen Teknik Sipil dan Lingkungan</a></li>
+					<li><a target="_blank" href= 'http://jteti.ugm.ac.id/'>Departemen Teknik Elektro dan Teknologi Informasi</a></li>
+					<li><a target="_blank" href= 'https://chemeng.ugm.ac.id/web/'>Departemen Teknik Kimia </a></li>
+					<li><a target="_blank" href= 'http://dtmi.ft.ugm.ac.id/'>Departemen Teknik Mesin dan Industri </a></li>
+					<li><a target="_blank" href= 'http://geologi.ugm.ac.id/'>Departemen Teknik Geologi</a></li>
+					<li><a target="_blank" href= 'http://tf.ugm.ac.id/'>Departemen Teknik Nuklr dan Teknik Fisika </a></li>
+				</ul>
+			</p>
+		</div>
+		<div class="chapter" name="FTP">
+			<h2><a target="_blank" href= 'http://tp.ugm.ac.id/id//'>Fakultas Teknologi Pertanian</a></h2>
+			<img class="img-responsive" src="img/story-ftp.png">
+			<p>
+			Fakultas Teknologi Pertanian UGM sebelumnya merupakan salah satu Bagian (Jurusan) di Fakultas Pertanian UGM. Dalam perkembangan selanjutnya, dirasakan perlu adanya penerapan teknologi yang lebih luas dan mendalam agar sektor pertanian lebih berperan dalam pembangunan bangsa dan negara, maka Jurusan Teknologi Pertanian berkembang menjadi Fakultas Teknologi Pertanian dan diresmikan pada tanggal 19 September 1963.
+			</p>
+			<p>
+			Fakultas Teknologi Pertanian UGM menitikberatkan pada kajian pengembangan dan penerapan teknologi untuk bidang pertanian dengan melibatkan ilmu-ilmu kimia, biologi, mikrobiologi, matematika, fisika, manajemen dan keteknikan dalam sistem konservasi tanah dan tata air, rancangbangun peralatan pertanian, teknologi pangan dan hasil pertanian, teknologi pengawetan, pengembangan produk baru bernilai ekonomi tinggi, optimasi proses, analisa sistem dan manajemen di dalam sistem industri pertanian, serta agroindustri.
+			</p>
+			<p>	
+			Implementasi dari kajian-kajian tersebut diselenggarakan oleh departemen yang ada, yaitu : 
+				<ul class="departemen">
+					<li><a target="_blank" href= 'http://tphp.ugm.ac.id'>Departemen Teknologi Pangan dan Hasil Pertanian </a></li>
+					<li><a target="_blank" href= 'http://tpb.tp.ugm.ac.id'>Departemen Teknik Pertanian dan Biosistem </a></li>
+					<li><a target="_blank" href= 'http://tip.ugm.ac.id'>Departemen Teknologi Industri Pertanian</a></li>
+					</ul>
+			</p>
+		</div>
+		<div class="chapter" name="Pascasarjana">
+			<h2><a target="_blank" href= 'http://www.pasca.ugm.ac.id/'>Sekolah Pascasarjana</a></h2>
+			<img class="img-responsive" src="img/story-pascasarjana.png">
+			<p>
+			Pendidikan Pascasarjana di UGM khususnya untuk program doktor telah dikembangkan sejak tahun 1950. Sedangkan untuk program magister dikembangkan mulai tahun 1980 setelah pemerintah menetapkan stratafikasi jenjang perguruan tinggi yang meliputi jenjang S1, S2, dan S3.
+			</p>
+			<p>
+			Sekolah Pascasarjana Universitas Gadjah Mada memiliki berbagai bidang studi Multidisiplin. Daftar Program studi berserta Minat studi (Konsentrasi) dari masing-masing Program studi dapat dilihat pada 
+			<a target="_blank" href= 'http://www.pasca.ugm.ac.id/v3.0/id/prodi.htm'>web pascasarjana UGM.</a>
+			</p>
+		</div>
+		<div class="chapter" name="Vokasi">
+		  	<h2><a target="_blank" href= 'https://sv.ugm.ac.id/'>Sekolah Vokasi</a></h2>
+			<img class="img-responsive" src="img/story-vokasi.png">
+			<p>
+			Sekolah Vokasi UGM didirikan sebagai institusi untuk mengembangkan diri sebagai lembaga nasional yang bercirikan pada aplikasi ilmu dan pengetahuan. Sekolah Vokasi UGM dibentuk dengan Peraturan Rektor UGM No. 518/P/SK/HT /2008 tertanggal 6 Oktober 2008.
+			</p>
+			<p>
+			Sekolah Vokasi pada awalnya di tahun 2009 mempunyai 22 program studi (prodi) Diploma 3 dan menjadi 23 prodi (mulai tahun ajaran 2011) dengan dibukanya kembali Program Studi Diploma 4 Bidan Pendidik. Pada tahun 2012, dibuka program studi baru yaitu Program Studi Diploma 3 Metrologi dan lnstrumentasi. Kemudian pada tahun 2013, dibuka tiga program studi D4 baru sehingga total prodi ada 27.
+			</p>
+			<p>	
+			Pendidikan di Sekolah Vokasi UGM dibagi menjadi 8 Departemen :
+				<ul class="departemen">
+					<li><a target="_blank" href= 'http://sv.ugm.ac.id/akademik/departemen/departemen-layanan-dan-informasi-kesehatan'>Departemen Layanan dan Informasi Kesehatan</a></li>
+					<li><a target="_blank" href= 'http://sv.ugm.ac.id/akademik/departemen/departemen-teknologi-kebumian'>Departemen Teknologi Kebumian</a></li>
+					<li><a target="_blank" href= 'http://sv.ugm.ac.id/akademik/departemen/departemen-teknologi-hayati-dan-veteriner'>Departemen Teknologi Hayati dan Veteriner</a></li>
+					<li><a target="_blank" href= 'http://sv.ugm.ac.id/akademik/departemen/departemen-teknik-mesin'>Departemen Teknik Mesin</a></li>
+					<li><a target="_blank" href= 'http://sv.ugm.ac.id/akademik/departemen/departemen-teknik-sipil'>Departemen Teknik Sipil </a></li>
+					<li><a target="_blank" href= 'http://sv.ugm.ac.id/akademik/departemen/departemen-teknik-elektro-dan-informatika'>Departemen Teknik Elektro dan Informatika </a></li>
+					<li><a target="_blank" href= 'http://sv.ugm.ac.id/akademik/departemen/departemen-ekonomika-dan-bisnis'>Departemen Ekonomika dan Bisnis</a></li>
+					<li><a target="_blank" href= 'http://sv.ugm.ac.id/akademik/departemen/departemen-bahasa-seni-dan-manajemen-budaya'>Departemen Bahasa, Seni dan Manajemen Budaya </a></li>
+				</ul>
+			</p>
+		</div>
+		<div class="ol-scroll-top">Awal</div>
+    </div>
+    <script src="js/app.js">  </script>
+</body>
+</html>
