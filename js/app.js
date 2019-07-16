@@ -1,5 +1,5 @@
 // ========================= config section =================================
-var url = 'http://localhost:8080/geoserver/petakampus/ows?';
+var url = 'http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/ows?';
 var featureNS = 'http://petakampus';
 var infoFormat = 'application/vnd.ogc.gml/3.1.1'; // can also be 'text/html'
 var view = new ol.View({
@@ -37,9 +37,9 @@ var baseLayer = new ol.layer.Group({
             visible: false,
             source: new ol.source.TileWMS({
                 attributions: [ "&copy; <a href='https://ugm.ac.id/'>Universitas Gadjah Mada</a>","&copy; <a>Geopotret</a>"  ],
-                url: 'http://localhost:8080/geoserver/petakampus/wms',
+                url: 'http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms',
                 params: {
-                    'LAYERS': 'petakampus:ugm_potong',
+                    'LAYERS': 'petakampus:basemap_ugm',
                     'TILED': true
                 },
                 serverType: 'geoserver',
@@ -57,13 +57,13 @@ var dataLayer = new ol.layer.Group({
     layers:[
         halte = new ol.layer.Tile({
             title: 'Halte',
-            img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:halte0&TRANSPARENT=true",
+            img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:halte&TRANSPARENT=true",
             visible: false,
             zIndex: 1,
             source: new ol.source.TileWMS({
                 url: url,
                 params: {
-                    'LAYERS': 'petakampus:halte0',
+                    'LAYERS': 'petakampus:halte',
                     'TILED': true
                 },
                 serverType: 'geoserver',
@@ -73,13 +73,13 @@ var dataLayer = new ol.layer.Group({
         }),			
         new ol.layer.Tile({
             title: 'Water Dispenser',
-            img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:air_bersih0&TRANSPARENT=true",
+            img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:air_bersih&TRANSPARENT=true",
             visible: false,
             zIndex: 1,
             source: new ol.source.TileWMS({
                 url: url,
                 params: {
-                    'LAYERS': 'petakampus:air_bersih0',
+                    'LAYERS': 'petakampus:air_bersih',
                     'TILED': true
                 },
                 serverType: 'geoserver',
@@ -89,13 +89,13 @@ var dataLayer = new ol.layer.Group({
         }),
         new ol.layer.Tile({
             title: 'Kafetaria',
-            img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:kantin0&TRANSPARENT=true",
+            img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:kantin&TRANSPARENT=true",
             visible: false,
             zIndex: 1,
             source: new ol.source.TileWMS({
-                url: 'http://localhost:8080/geoserver/petakampus/wms',
+                url: url,
                 params: {
-                    'LAYERS': 'petakampus:kantin0',
+                    'LAYERS': 'petakampus:kantin',
                     'TILED': true
                 },
                 serverType: 'geoserver',
@@ -105,13 +105,13 @@ var dataLayer = new ol.layer.Group({
         }),
         new ol.layer.Tile({
             title: 'Layanan Kesehatan',
-            img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:layanan_kes0&TRANSPARENT=true",
+            img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:layanan_kesehatan&TRANSPARENT=true",
             visible: false,
             zIndex: 1,
             source: new ol.source.TileWMS({
-                url: 'http://localhost:8080/geoserver/petakampus/wms',
+                url: url,
                 params: {
-                    'LAYERS': 'petakampus:layanan_kes0',
+                    'LAYERS': 'petakampus:layanan_kesehatan',
                     'TILED': true
                 },
                 serverType: 'geoserver',
@@ -122,11 +122,11 @@ var dataLayer = new ol.layer.Group({
         new ol.layer.Group({ title: 'Luasan', openInLayerSwitcher: false, visible: true, layers: [
             new ol.layer.Tile({
                 title: 'Danau',
-                img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:danau&TRANSPARENT=true",
+                img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:danau&TRANSPARENT=true",
                 visible: true,
                 zIndex: 1,
                 source: new ol.source.TileWMS({
-                    url: 'http://localhost:8080/geoserver/petakampus/wms',
+                    url: url,
                     params: {
                         'LAYERS': 'petakampus:danau',
                         'TILED': true
@@ -138,11 +138,11 @@ var dataLayer = new ol.layer.Group({
             }),
             new ol.layer.Tile({
                 title: 'Hutan',
-                img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:hutan&TRANSPARENT=true",
+                img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:hutan&TRANSPARENT=true",
                 visible: true,
                 zIndex: 1,
                 source: new ol.source.TileWMS({
-                    url: 'http://localhost:8080/geoserver/petakampus/wms',
+                    url: url,
                     params: {
                         'LAYERS': 'petakampus:hutan',
                         'TILED': true
@@ -154,11 +154,11 @@ var dataLayer = new ol.layer.Group({
             }),
             new ol.layer.Tile({
                 title: 'Lapangan',
-                img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:lapangan&TRANSPARENT=true",
+                img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:lapangan&TRANSPARENT=true",
                 visible: true,
                 zIndex: 1,
                 source: new ol.source.TileWMS({
-                    url: 'http://localhost:8080/geoserver/petakampus/wms',
+                    url: url,
                     params: {
                         'LAYERS': 'petakampus:lapangan',
                         'TILED': true
@@ -172,11 +172,11 @@ var dataLayer = new ol.layer.Group({
         new ol.layer.Group({ title: 'Parkir', openInLayerSwitcher: false, visible: true, layers: [
             new ol.layer.Tile({
                 title: 'Parkir Mobil',
-                img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:parkir_mobil&TRANSPARENT=true&RULE=mobil_umum",
+                img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:parkir_mobil&TRANSPARENT=true&RULE=mobil_umum",
                 visible: false,
                 zIndex: 1,
                 source: new ol.source.TileWMS({
-                    url: 'http://localhost:8080/geoserver/petakampus/wms',
+                    url: url,
                     params: {
                         'LAYERS': 'petakampus:parkir_mobil',
                         'TILED': true
@@ -188,11 +188,11 @@ var dataLayer = new ol.layer.Group({
             }),
             new ol.layer.Tile({
                 title: 'Parkir Motor',
-                img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:parkir_motor&TRANSPARENT=true&RULE=motor_umum ",
+                img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:parkir_motor&TRANSPARENT=true&RULE=motor_umum ",
                 visible: false,
                 zIndex: 1,
                 source: new ol.source.TileWMS({
-                    url: 'http://localhost:8080/geoserver/petakampus/wms',
+                    url: url,
                     params: {
                         'LAYERS': 'petakampus:parkir_motor',
                         'TILED': true
@@ -205,13 +205,13 @@ var dataLayer = new ol.layer.Group({
         ]}),
         new ol.layer.Tile({
             title: 'Pos Keamanan',
-            img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:pos_keamanan0&TRANSPARENT=true",
+            img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:pos_keamanan&TRANSPARENT=true",
             visible: false,
             zIndex: 1,
             source: new ol.source.TileWMS({
-                url: 'http://localhost:8080/geoserver/petakampus/wms',
+                url: url,
                 params: {
-                    'LAYERS': 'petakampus:pos_keamanan0',
+                    'LAYERS': 'petakampus:pos_keamanan',
                     'TILED': true
                 },
                 serverType: 'geoserver',
@@ -221,13 +221,13 @@ var dataLayer = new ol.layer.Group({
         }),
         new ol.layer.Tile({
             title: 'Sepeda Kampus',
-            img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:sepeda_kampus0&TRANSPARENT=true",
+            img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:sepeda_kampus&TRANSPARENT=true",
             visible: false,
             zIndex: 1,
             source: new ol.source.TileWMS({
-                url: 'http://localhost:8080/geoserver/petakampus/wms',
+                url: url,
                 params: {
-                    'LAYERS': 'petakampus:sepeda_kampus0',
+                    'LAYERS': 'petakampus:sepeda_kampus',
                     'TILED': true
                 },
                 serverType: 'geoserver',
@@ -237,13 +237,13 @@ var dataLayer = new ol.layer.Group({
         }),
         new ol.layer.Tile({
             title: 'Masjid/Mushola',
-            img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:tempat_badah0&TRANSPARENT=true",
+            img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:tempat_ibadah&TRANSPARENT=true",
             visible: false,
             zIndex: 1,
             source: new ol.source.TileWMS({
-                url: 'http://localhost:8080/geoserver/petakampus/wms',
+                url: url,
                 params: {
-                    'LAYERS': 'petakampus:tempat_badah0',
+                    'LAYERS': 'petakampus:tempat_ibadah',
                     'TILED': true
                 },
                 serverType: 'geoserver',
@@ -253,12 +253,12 @@ var dataLayer = new ol.layer.Group({
         }),
         new ol.layer.Tile({
             title: 'Bangunan',
-            img: "http://localhost:8080/geoserver/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:bangunan1&TRANSPARENT=true&STYLE=petakampus:bang",
+            img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:bangunan&TRANSPARENT=true&STYLE=petakampus:bang",
             source: new ol.source.TileWMS({
                 attributions: [ "&copy; <a href='https://ugm.ac.id/'>Universitas Gadjah Mada</a>"],
                 url: url,
                 params: {
-                    'LAYERS': 'petakampus:bangunan1',
+                    'LAYERS': 'petakampus:bangunan',
                     'TILED': true
                 },
                 serverType: 'geoserver',
@@ -413,7 +413,7 @@ function wmsIdentify(event){
         event.coordinate, resolution, 'EPSG:3857',
         { 'INFO_FORMAT': 'text/html' });
     if (url) {
-        var content = '<iframe seamless src="' + url + '"></iframe>';
+        var content = '<iframe is="x-frame-bypass" seamless src="' + url + '"></iframe>';
         popup.show(event.coordinate, content);
     } else {
         popup.hide();
@@ -423,8 +423,8 @@ function wmsIdentify(event){
     var coord = ol.proj.toLonLat(event.coordinate)
     var lat = coord[1];
     var lon = coord[0];
-    var cqlUrl ='http://localhost:8080/geoserver/petakampus/wfs?service=WFS&' +
-        'version=1.1.0&request=GetFeature&typename=petakampus:bangunan1&' +
+    var cqlUrl ='http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wfs?service=WFS&' +
+        'version=1.1.0&request=GetFeature&typename=petakampus:bangunan&' +
         'CQL_FILTER=CONTAINS(geom, Point(' + lat + '%20' + lon + '))&'+
         'outputFormat=application/json&srsname=EPSG:3857&';
     // var identify = new ol.layer.Vector({
@@ -810,7 +810,7 @@ function routeOn(){
         result = new ol.layer.Vector({
             source: new ol.source.Vector({
                 loader: function (extent) {
-                    $.ajax('http://localhost:8080/geoserver/petakampus/wfs', {
+                    $.ajax('http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wfs', {
                         type: 'GET',
                         data: {
                             service: 'WFS',
@@ -1031,7 +1031,7 @@ story.on('scrollto', function(e){
     if (e.name==='Start') {
         placemark.hide();
         batasFakultas.getSource().clear();
-        var cqlUrl ='http://localhost:8080/geoserver/petakampus/wfs?service=WFS&' +
+        var cqlUrl ='http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wfs?service=WFS&' +
             'version=1.1.0&request=GetFeature&typename=petakampus:batas_fakultas&' +
             'CQL_FILTER=fakultas+ILIKE+%27%25'+positions[e.name].s +'%25%27&'+
             'outputFormat=application/json&srsname=EPSG:3857&';
@@ -1055,7 +1055,7 @@ story.on('scrollto', function(e){
         })
     } else {
         placemark.show(positions[e.name].xy);
-        cqlUrl ='http://localhost:8080/geoserver/petakampus/wfs?service=WFS&' +
+        cqlUrl ='http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wfs?service=WFS&' +
             'version=1.1.0&request=GetFeature&typename=petakampus:batas_fakultas&' +
             'CQL_FILTER=fakultas+ILIKE+%27%25'+positions[e.name].s +'%25%27&'+
             'outputFormat=application/json&srsname=EPSG:3857&';
