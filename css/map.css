@@ -1,7 +1,7 @@
 .layerswitcher-opacity {	
     display:none;
 }
-.ol-control.ol-bar.ol-top.ol-left, .ol-control.ol-bar.ol-top.ol-right{
+.ol-control.ol-bar.ol-top.ol-left, .ol-control.ol-bar.ol-top.ol-right, .ol-touch .ol-control.ol-bar.ol-top.ol-left{
     top: 6.5em;
 }
 .ol-control .ol-bar button{ 
@@ -12,9 +12,15 @@
     height: 1.5em !important;
     width: 1.5em !important;
 }	
+.ol-touch .ol-control button {
+    font-size: 1.14em;
+}
 .ol-popup {
-    padding: 0px 0px 0px 10px;
-    min-width: 280px;
+    padding: 0px 10px 10px 10px;
+}
+.ol-popup-content h3{
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 .ol-attribution ul{
     font-size: 1rem!important;

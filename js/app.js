@@ -413,8 +413,11 @@ function wmsIdentify(event){
         event.coordinate, resolution, 'EPSG:3857',
         { 'INFO_FORMAT': 'text/html' });
     if (url) {
-        var content = '<iframe is="x-frame-bypass" seamless src="' + url + '"></iframe>';
-        popup.show(event.coordinate, content);
+        fetch(url)
+        .then((response) => response.text())
+        .then((html) => {
+            popup.show(event.coordinate, html);
+        });
     } else {
         popup.hide();
     }
