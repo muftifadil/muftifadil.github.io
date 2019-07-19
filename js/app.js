@@ -423,13 +423,14 @@ function wmsIdentify(event){
     }
     
     // highlight using wfs get
-    var coord = ol.proj.toLonLat(event.coordinate)
+    var coord = event.coordinate;
     var lat = coord[1];
     var lon = coord[0];
     var cqlUrl ='http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wfs?service=WFS&' +
-        'version=1.1.0&request=GetFeature&typename=petakampus:bangunan&' +
-        'CQL_FILTER=CONTAINS(geom, Point(' + lat + '%20' + lon + '))&'+
-        'outputFormat=application/json&srsname=EPSG:3857&';
+    'version=1.1.0&request=GetFeature&typename=petakampus:bangunan&' +
+    'CQL_FILTER=CONTAINS(geom,Point(' + lon + '%20' + lat + '))&'+
+    'outputFormat=application/json&srsname=EPSG:3857&';
+    console.log(cqlUrl);
     // var identify = new ol.layer.Vector({
     var source =  new ol.source.Vector({
         loader: function (extent) {
