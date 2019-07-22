@@ -37,9 +37,9 @@ var baseLayer = new ol.layer.Group({
             visible: false,
             source: new ol.source.TileWMS({
                 attributions: [ "&copy; <a href='https://ugm.ac.id/'>Universitas Gadjah Mada</a>","&copy; <a>Geopotret</a>"  ],
-                url: 'http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms',
+                url: url,
                 params: {
-                    'LAYERS': 'petakampus:basemap_ugm',
+                    'LAYERS': 'petakampus:foto_ugm_tiled',
                     'TILED': true
                 },
                 serverType: 'geoserver',
