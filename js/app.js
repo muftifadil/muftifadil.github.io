@@ -430,7 +430,6 @@ function wmsIdentify(event){
     'version=1.1.0&request=GetFeature&typename=petakampus:bangunan&' +
     'CQL_FILTER=CONTAINS(geom,Point(' + lon + '%20' + lat + '))&'+
     'outputFormat=application/json&srsname=EPSG:3857&';
-    console.log(cqlUrl);
     // var identify = new ol.layer.Vector({
     var source =  new ol.source.Vector({
         loader: function (extent) {
