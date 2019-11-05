@@ -14,7 +14,7 @@ var baseLayer = new ol.layer.Group({
     openInLayerSwitcher: true,
     layers:[
         new ol.layer.Tile({
-            title: 'Bing Road',
+            title: 'Bing',
             baseLayer: true,
             visible: true,
             source: new ol.source.BingMaps({
@@ -255,7 +255,7 @@ var dataLayer = new ol.layer.Group({
             title: 'Bangunan',
             img: "http://geoportal.ppids.ft.ugm.ac.id/geoserver/petakampus/wms?service=WMS&REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=28&LAYER=petakampus:bangunan&TRANSPARENT=true&STYLE=petakampus:bang",
             source: new ol.source.TileWMS({
-                attributions: [ "&copy; <a href='https://ugm.ac.id/'>Universitas Gadjah Mada</a>"],
+                attributions: [ "&copy; 2019 <a href='https://ugm.ac.id/'>Universitas Gadjah Mada</a>"],
                 url: url,
                 params: {
                     'LAYERS': 'petakampus:bangunan',
