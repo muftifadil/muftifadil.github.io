@@ -135,23 +135,24 @@
 .ol-control.ol-layerswitcher .panel {
     background-color: #7a97bb !important;
 }
+
 #story img {
-display: block;
-margin: auto;
-max-width: 100%;
+    display: block;
+    margin: auto;
+    max-width: 100%;
 }
 #story .chapter {
-opacity: .4;
-transition: .3s;
-background-color: transparent;
-padding: .5em;
+    opacity: .4;
+    transition: .3s;
+    background-color: transparent;
+    padding: .5em;
 }
 #story .chapter.select {
-opacity: 1;
-background-color: rgba(255,255,255,.8);
+    opacity: 1;
+    background-color: rgba(255,255,255,.8);
 }
 .options a {
-cursor: pointer;
+    cursor: pointer;
 }
 #right-bar{
     position: absolute;
@@ -170,9 +171,25 @@ cursor: pointer;
 #story .chapter.start {
     text-align: center;
 }
-.ol-scroll-top, .ol-scroll-next{
+.ol-scroll-next{
     text-align: center;
     font-size: 20px;
+}
+.ol-scroll-top{
+    text-align: center;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 5px;
+    margin-top: 10px;
+}
+#story .two-column{
+    float: left;
+    width: 50%;
+}
+#story hr{
+    clear: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 #story .chapter p {
     margin: 0;
